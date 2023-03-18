@@ -1,6 +1,16 @@
 import assert from "assert";
 import { callWithSharedWorker, closeSharedWorker, resetSharedWorker } from "./shared-worker.mjs";
 
+// This approach uses a single worker instance, rather than creating a new one
+// for each import. That means that the runtime's module cache is still shared
+// across calls to `callWithSharedWorker` but we also have `resetSharedWorker`
+// which replaces the current worker with a new instance.
+//
+// The use case for this approach is more niche, but for build processes that
+// re-run after detecting changes on disk, there is no need to evaluate a
+// module from disk multiple times during a single build. Instead, reset the
+// worker once after each build.
+
 async function main() {
   assert.deepStrictEqual(
     await callWithSharedWorker("../shared/dependency.mjs"),
