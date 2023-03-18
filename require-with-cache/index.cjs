@@ -1,7 +1,7 @@
 let assert = require("assert");
 
 {
-  let dependency = require("./dependency.cjs");
+  let dependency = require("../shared/dependency.cjs");
 
   assert.deepStrictEqual(
     dependency.call(),
@@ -11,7 +11,7 @@ let assert = require("assert");
 }
 
 {
-  let dependency = require("./dependency.cjs");
+  let dependency = require("../shared/dependency.cjs");
 
   assert.deepStrictEqual(
     dependency.call(),
@@ -21,9 +21,9 @@ let assert = require("assert");
 }
 
 {
-  delete require.cache[require.resolve("./dependency.cjs")];
-  delete require.cache[require.resolve("./transitive.cjs")];
-  let dependency = require("./dependency.cjs");
+  delete require.cache[require.resolve("../shared/dependency.cjs")];
+  delete require.cache[require.resolve("../shared/transitive.cjs")];
+  let dependency = require("../shared/dependency.cjs");
 
   assert.deepStrictEqual(
     dependency.call(),
