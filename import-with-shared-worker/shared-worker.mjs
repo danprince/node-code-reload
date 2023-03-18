@@ -9,6 +9,8 @@ let requests = {};
 let uid = 0;
 
 export function resetSharedWorker() {
+  closeSharedWorker();
+
   let file = fileURLToPath(import.meta.url);
   worker = new Worker(file);
   worker.on("message", ({ id, result, error }) => {
@@ -40,4 +42,8 @@ if (isMainThread) {
       parentPort.postMessage({ id, error });
     }
   });
+}
+
+export function closeSharedWorker() {
+  worker?.terminate();
 }

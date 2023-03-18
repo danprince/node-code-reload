@@ -1,5 +1,5 @@
 import assert from "assert";
-import { callWithSharedWorker, resetSharedWorker } from "./shared-worker.mjs";
+import { callWithSharedWorker, closeSharedWorker, resetSharedWorker } from "./shared-worker.mjs";
 
 async function main() {
   assert.deepStrictEqual(
@@ -35,13 +35,7 @@ async function main() {
     );
   }
 
-  // The worker thread is still running and we should probably ask it to close
-  // politely so that Node will automatically exit, but adding that code will
-  // add noise to the shared-worker.mjs module.
-  //
-  // This makes it very important that this is the last test (not super easy to
-  // wait for this to finish from inside the root index.cjs).
-  process.exit(0);
+  closeSharedWorker();
 }
 
 main();
